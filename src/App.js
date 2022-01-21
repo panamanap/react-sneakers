@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import Drawer from './components/Drawer';
 import Header from './components/Header';
@@ -147,6 +147,7 @@ function App() {
                     <Route path="/orders" exact>
                         <Orders />
                     </Route>
+                    <Redirect to="/" />
                 </div>
             </div>
         </AppContext.Provider>
