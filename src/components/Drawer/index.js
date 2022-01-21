@@ -4,6 +4,10 @@ import axios from 'axios';
 import styles from './Drawer.module.scss';
 import { CART_URL, ORDERS_URL } from '../../utils/const';
 import { useCart } from '../../hooks/useCart';
+import btnRemove from '../../svg/btn-remove.svg';
+import arrow from '../../svg/arrow.svg';
+import completedOrder from '../../svg/completed-order.svg';
+import cartEmpty from '../../svg/cart-empty.svg';
 
 // из-за mockapi надо делать задержку
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -51,7 +55,7 @@ function Drawer({ onClose, onRemoveItem, opened }) {
                     Корзина
                     <img
                         className={styles.removeBtn}
-                        src="/img/btn-remove.svg"
+                        src={btnRemove}
                         alt="remove"
                         onClick={onClose}
                     />
@@ -74,7 +78,7 @@ function Drawer({ onClose, onRemoveItem, opened }) {
                                     </div>
                                     <img
                                         className={styles.removeBtn}
-                                        src="/img/btn-remove.svg"
+                                        src={btnRemove}
                                         alt="remove"
                                         onClick={() => onRemoveItem(item.id)}
                                     />
@@ -101,7 +105,7 @@ function Drawer({ onClose, onRemoveItem, opened }) {
                                 onClick={() => onClickOrder()}
                             >
                                 Оформить заказ
-                                <img src="/img/arrow.svg" alt="arrow" />
+                                <img src={arrow} alt="arrow" />
                             </button>
                         </div>
                     </div>
@@ -117,11 +121,7 @@ function Drawer({ onClose, onRemoveItem, opened }) {
                                 ? `Ваш заказ #${orderId} скоро будет передан курьерской доставке`
                                 : 'Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.'
                         }
-                        image={
-                            orderCompleted
-                                ? '/img/completed-order.png'
-                                : '/img/cart-empty.png'
-                        }
+                        image={orderCompleted ? completedOrder : cartEmpty}
                     />
                 )}
             </div>

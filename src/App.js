@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import axios from 'axios';
 import Drawer from './components/Drawer';
 import Header from './components/Header';
@@ -9,6 +9,7 @@ import { AppContext } from './context';
 import { CART_URL, FAVORITES_URL, ITEMS_URL } from './utils/const';
 import Orders from './pages/Orders';
 import styles from './App.module.scss';
+import Footer from './components/Footer';
 
 function App() {
     const [items, setItems] = React.useState([]);
@@ -130,24 +131,27 @@ function App() {
                         opened={opened}
                     />
                     <Header onCart={() => setOpened(true)} />
-                    <Route path="/" exact>
-                        <Home
-                            searchValue={searchValue}
-                            setSearchValue={setSearchValue}
-                            onChangeSearchInput={onChangeSearchInput}
-                            items={items}
-                            onAddToFavorite={onAddToFavorite}
-                            onAddToCart={onAddToCart}
-                            isLoading={isLoading}
-                        />
-                    </Route>
-                    <Route path="/favorites" exact>
-                        <Favorites onAddToFavorite={onAddToFavorite} />
-                    </Route>
-                    <Route path="/orders" exact>
-                        <Orders />
-                    </Route>
-                    <Redirect to="/" />
+                    <Switch>
+                        <Route path="/react-sneakers" exact>
+                            <Home
+                                searchValue={searchValue}
+                                setSearchValue={setSearchValue}
+                                onChangeSearchInput={onChangeSearchInput}
+                                items={items}
+                                onAddToFavorite={onAddToFavorite}
+                                onAddToCart={onAddToCart}
+                                isLoading={isLoading}
+                            />
+                        </Route>
+                        <Route path="/react-sneakers/favorites" exact>
+                            <Favorites onAddToFavorite={onAddToFavorite} />
+                        </Route>
+                        <Route path="/react-sneakers/orders" exact>
+                            <Orders />
+                        </Route>
+                        <Redirect to="/react-sneakers" />
+                    </Switch>
+                    <Footer />
                 </div>
             </div>
         </AppContext.Provider>

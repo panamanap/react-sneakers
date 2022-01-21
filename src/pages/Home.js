@@ -1,5 +1,7 @@
 import Card from '../components/Card';
 import styles from '../App.module.scss';
+import search from '../svg/search.svg';
+import btnRemove from '../svg/btn-remove.svg';
 
 function Home({
     searchValue,
@@ -35,11 +37,11 @@ function Home({
                         : 'Все кроссовки'}
                 </h1>
                 <div className={styles.searchBlock}>
-                    <img src="/img/search.svg" alt="search" />
+                    <img src={search} alt="search" />
                     {searchValue && (
                         <img
                             className={styles.clearbtn}
-                            src="/img/btn-remove.svg"
+                            src={btnRemove}
                             alt="clear"
                             onClick={() => setSearchValue('')}
                         />

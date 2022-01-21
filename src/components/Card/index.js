@@ -2,10 +2,13 @@ import React from 'react';
 import ContentLoader from 'react-content-loader';
 import { AppContext } from '../../context';
 import styles from './Card.module.scss';
+import liked from '../../svg/liked.svg';
+import unliked from '../../svg/unliked.svg';
+import btnChecked from '../../svg/btn-checked.svg';
+import btnPlus from '../../svg/btn-plus.svg';
 
 function Card({
     id,
-    parentId,
     title,
     price,
     imageUrl,
@@ -13,6 +16,7 @@ function Card({
     onFavorite,
     favorited = false,
     loading = false,
+    setReload,
 }) {
     const { addingItem } = React.useContext(AppContext);
     const [isFavorite, setIsFavorite] = React.useState(favorited);
@@ -25,6 +29,7 @@ function Card({
 
     const onClickFavorite = () => {
         onFavorite(obj);
+
         setIsFavorite(!isFavorite);
     };
 
@@ -62,14 +67,7 @@ function Card({
             ) : (
                 <>
                     <div className={styles.favorite} onClick={onClickFavorite}>
-                        <img
-                            src={
-                                isFavorite
-                                    ? '/img/liked.svg'
-                                    : '/img/unliked.svg'
-                            }
-                            alt="unliked"
-                        />
+                        <img src={isFavorite ? liked : unliked} alt="unliked" />
                     </div>
                     <img
                         width={133}
@@ -86,11 +84,7 @@ function Card({
                         {onPlus && (
                             <img
                                 className={styles.plus}
-                                src={
-                                    addingItem(id)
-                                        ? '/img/btn-checked.svg'
-                                        : '/img/btn-plus.svg'
-                                }
+                                src={addingItem(id) ? btnChecked : btnPlus}
                                 alt="plus"
                                 onClick={onClickPlus}
                             />
