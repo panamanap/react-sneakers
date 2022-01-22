@@ -5,6 +5,7 @@
     border-radius: 40px;
     margin: 0 10px 40px;
     transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+    position: relative;
 
     &:hover {
         box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.06);
@@ -44,5 +45,18 @@
 
     .plus {
         cursor: pointer;
+    }
+}
+
+.delete {
+    animation: deleteCard ease-in-out 0.4s;
+}
+
+@keyframes deleteCard {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
     }
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { AppContext } from '../../context';
 import styles from './Info.module.scss';
-import arrow from '../../svg/arrow.svg';
 
 function Info({ title, discriotion, image }) {
     const { setOpened } = React.useContext(AppContext);
@@ -20,7 +19,7 @@ function Info({ title, discriotion, image }) {
                 className={styles.greenButton}
                 onClick={() => setOpened(false)}
             >
-                <img src={arrow} alt="arrow" />
+                <img src="img/svg/arrow.svg" alt="arrow" />
                 Вернуться назад
             </button>
         </div>

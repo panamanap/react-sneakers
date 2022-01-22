@@ -17,8 +17,6 @@ function App() {
     const [favorites, setFavorites] = React.useState([]);
     const [searchValue, setSearchValue] = React.useState('');
     const [opened, setOpened] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [orderId, setOrderId] = React.useState(null);
 
     React.useEffect(() => {
         (async () => {
@@ -29,8 +27,6 @@ function App() {
                         axios.get(FAVORITES_URL),
                         axios.get(ITEMS_URL),
                     ]);
-
-                setIsLoading(false);
                 setCartItems(cartResponse.data);
                 setFavorites(favoritesResponse.data);
                 setItems(itemsResponse.data);
@@ -79,10 +75,27 @@ function App() {
     };
 
     const onAddToFavorite = async (obj) => {
+        console.log('aaaaaaaa');
         try {
+            if (favorites.find((item) => item.parentId === obj.parentId)) {
+                axios.delete(`${FAVORITES_URL}/${obj.id}`);
+                setFavorites(
+                    favorites.filter((item) => item.parentId !== obj.id)
+                );
+            }
             if (favorites.find((item) => item.id === obj.id)) {
                 axios.delete(`${FAVORITES_URL}/${obj.id}`);
+                setTimeout(
+                    () =>
+                        setFavorites(
+                            favorites.filter((item) => item.id !== obj.id)
+                        ),
+                    400
+                );
             } else {
+                if (favorites.find((item) => item.parentId === obj.parentId)) {
+                    return;
+                }
                 const { data } = await axios.post(FAVORITES_URL, obj);
                 setFavorites((prev) => [...prev, data]);
             }
@@ -132,7 +145,7 @@ function App() {
                     />
                     <Header onCart={() => setOpened(true)} />
                     <Switch>
-                        <Route path="/react-sneakers" exact>
+                        <Route path="/react-sneakers/catalog" exact>
                             <Home
                                 searchValue={searchValue}
                                 setSearchValue={setSearchValue}
@@ -140,7 +153,7 @@ function App() {
                                 items={items}
                                 onAddToFavorite={onAddToFavorite}
                                 onAddToCart={onAddToCart}
-                                isLoading={isLoading}
+                                favorites={favorites}
                             />
                         </Route>
                         <Route path="/react-sneakers/favorites" exact>
@@ -149,7 +162,7 @@ function App() {
                         <Route path="/react-sneakers/orders" exact>
                             <Orders />
                         </Route>
-                        <Redirect to="/react-sneakers" />
+                        <Redirect to="/react-sneakers/catalog" />
                     </Switch>
                     <Footer />
                 </div>

@@ -4,13 +4,13 @@ import Card from '../components/Card';
 import { ORDERS_URL } from '../utils/const';
 import { AppContext } from '../context';
 import styles from '../App.module.scss';
-import noOrder from '../svg/no-orders.svg';
 import EmptyPage from '../components/EmptyPage';
 
 function Orders() {
-    const { onAddToFavorite } = React.useContext(AppContext);
+    const { onAddToFavorite, favorites } = React.useContext(AppContext);
     const [orders, setOrders] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
+    console.log(orders);
 
     React.useEffect(() => {
         (async () => {
@@ -33,21 +33,22 @@ function Orders() {
                 <div>
                     <h1>Мои заказы</h1>
                     <div className={styles.sneakers}>
-                        {(isLoading ? [...Array(10)] : orders).map(
-                            (item, index) => (
-                                <Card
-                                    key={index}
-                                    {...item}
-                                    onFavorite={(obj) => onAddToFavorite(obj)}
-                                    loading={isLoading}
-                                />
-                            )
-                        )}
+                        {orders.map((item, index) => (
+                            <Card
+                                key={index}
+                                {...item}
+                                favorited={favorites.some(
+                                    (obj) => +obj.parentId === +item.id
+                                )}
+                                onFavorite={(obj) => onAddToFavorite(obj)}
+                                loading={isLoading}
+                            />
+                        ))}
                     </div>
                 </div>
             ) : (
                 <EmptyPage
-                    image={noOrder}
+                    image="img/svg/no-orders.svg"
                     title="У вас нет заказов"
                     description="Оформите хотя бы один заказ."
                 />

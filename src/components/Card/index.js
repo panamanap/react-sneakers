@@ -2,10 +2,6 @@ import React from 'react';
 import ContentLoader from 'react-content-loader';
 import { AppContext } from '../../context';
 import styles from './Card.module.scss';
-import liked from '../../svg/liked.svg';
-import unliked from '../../svg/unliked.svg';
-import btnChecked from '../../svg/btn-checked.svg';
-import btnPlus from '../../svg/btn-plus.svg';
 
 function Card({
     id,
@@ -16,12 +12,18 @@ function Card({
     onFavorite,
     favorited = false,
     loading = false,
-    setReload,
+    type = '',
 }) {
     const { addingItem } = React.useContext(AppContext);
     const [isFavorite, setIsFavorite] = React.useState(favorited);
 
-    const obj = { id, parentId: id, title, imageUrl, price };
+    const obj = {
+        id,
+        parentId: id,
+        title,
+        imageUrl,
+        price,
+    };
 
     const onClickPlus = () => {
         onPlus(obj);
@@ -29,12 +31,17 @@ function Card({
 
     const onClickFavorite = () => {
         onFavorite(obj);
-
         setIsFavorite(!isFavorite);
     };
 
     return (
-        <div className={styles.card}>
+        <div
+            className={`${styles.card} ${
+                type === 'favorites' && favorited && isFavorite === false
+                    ? styles.delete
+                    : ''
+            }`}
+        >
             {loading ? (
                 <ContentLoader
                     speed={2}
@@ -67,7 +74,14 @@ function Card({
             ) : (
                 <>
                     <div className={styles.favorite} onClick={onClickFavorite}>
-                        <img src={isFavorite ? liked : unliked} alt="unliked" />
+                        <img
+                            src={
+                                isFavorite
+                                    ? 'img/svg/liked.svg'
+                                    : 'img/svg/unliked.svg'
+                            }
+                            alt="unliked"
+                        />
                     </div>
                     <img
                         width={133}
@@ -84,7 +98,11 @@ function Card({
                         {onPlus && (
                             <img
                                 className={styles.plus}
-                                src={addingItem(id) ? btnChecked : btnPlus}
+                                src={
+                                    addingItem(id)
+                                        ? 'img/svg/btn-checked.svg'
+                                        : 'img/svg/btn-plus.svg'
+                                }
                                 alt="plus"
                                 onClick={onClickPlus}
                             />

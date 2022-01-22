@@ -1,7 +1,5 @@
 import Card from '../components/Card';
 import styles from '../App.module.scss';
-import search from '../svg/search.svg';
-import btnRemove from '../svg/btn-remove.svg';
 
 function Home({
     searchValue,
@@ -10,23 +8,21 @@ function Home({
     items,
     onAddToFavorite,
     onAddToCart,
-    isLoading,
+    favorites,
 }) {
     const renderItems = () => {
         const filtredItems = items.filter((item) =>
             item.title.toLowerCase().includes(searchValue.toLowerCase())
         );
-        return (isLoading ? [...Array(10)] : filtredItems).map(
-            (item, index) => (
-                <Card
-                    key={index}
-                    {...item}
-                    onFavorite={(obj) => onAddToFavorite(obj)}
-                    onPlus={(obj) => onAddToCart(obj)}
-                    loading={isLoading}
-                />
-            )
-        );
+        return filtredItems.map((item) => (
+            <Card
+                key={item.id}
+                {...item}
+                favorited={favorites.some((obj) => +obj.parentId === +item.id)}
+                onFavorite={(obj) => onAddToFavorite(obj)}
+                onPlus={(obj) => onAddToCart(obj)}
+            />
+        ));
     };
     return (
         <div className={styles.content}>
@@ -37,11 +33,11 @@ function Home({
                         : 'Все кроссовки'}
                 </h1>
                 <div className={styles.searchBlock}>
-                    <img src={search} alt="search" />
+                    <img src="img/svg/search.svg" alt="search" />
                     {searchValue && (
                         <img
                             className={styles.clearbtn}
-                            src={btnRemove}
+                            src="img/svg/btn-remove.svg"
                             alt="clear"
                             onClick={() => setSearchValue('')}
                         />
